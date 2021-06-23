@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- launch cooneo mini motor node -->
+  <include file="$(find mini_motor_adaptor)/launch/mini_motor_adaptor.launch" />
+
+  <!-- launch imu sensor node -->
+  <include file="$(find cooneo_imu)/launch/cooneo_imu.launch" />
+
+  <!-- launch laser sensor node -->
+  <include file="$(find rplidar_ros)/launch/view_rplidar_A1M8.launch" />
+
+  <!-- launch pose_initial  node -->
+  <include file="$(find pose_initial)/launch/init.launch" />
+  
+   <!-- load cooneo mini urdf file into rviz-->
+  <include file="$(find cooneo_mini)/launch/display.launch" />
+
+  <!-- load robot_localication node 融合imu 和里程计信息，输出融合后的odom信息 以及base_link 到 odom 的tf转换，供Gmapping 建图使用 -->
+  <!--
+  <rosparam command="load" file="$(find mini_gmapping)/params/dual_ekf_navsat_mini2.yaml" />
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true">
+    <remap from="/odometry/wheel" to="/wheel_odom" />                         
+    <remap from="/imu/data" to="imu" />                                       
+    <remap from="/odometry/filtered" to="odom"/>                              
+  </node>
+  -->
+ 
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <param name="output_frame" value="odom"/>
+    <param name="base_footprint_frame" value="base_link" />
+    <param name="sensor_timeout" value="0.5"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <param name="debug" value="false"/>
+    <param name="self_diagnose" value="false"/>
+    <param name="freq" value="50.0"/>
+
+    <remap from="/odom" to="/wheel_odom" />
+    <remap from="/imu_data" to="/imu" />
+  </node>
+
+  <!--launch move_base Stack node -->
+  <include file="$(find mini_navigation)/launch/move_base.launch" />
+
+</launch>

@@ -1,0 +1,79 @@
+<launch>
+
+  <!-- launch cooneo mini motor node -->
+  <include file="$(find mini_motor_adaptor)/launch/mini_motor_adaptor.launch" />
+
+  <!-- launch imu sensor node -->
+  <include file="$(find cooneo_imu)/launch/cooneo_imu.launch" />
+
+  <!-- launch laser sensor node -->
+  <include file="$(find rplidar_ros)/launch/view_rplidar_A1M8.launch" />
+
+ <!-- load cooneo mini urdf file into rviz-->
+  <include file="$(find cooneo_mini)/launch/display.launch" />
+  
+  <!-- load robot_localication node 融合imu 和里程计信息，输出融合后的odom信息 以及base_link 到 odom 的tf转换，供Gmapping 建图使用 -->
+<!--
+  <rosparam command="load" file="$(find mini_gmapping)/params/dual_ekf_navsat_mini2.yaml" />
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se_odom" clear_params="true">
+    <remap from="/odometry/wheel" to="/wheel_odom" />                        
+    <remap from="/imu/data" to="imu" />                                      
+    <remap from="/odometry/filtered" to="odom"/>                             
+  </node>
+-->
+<!-- the same to robot_localization node but it's more light-->
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <param name="output_frame" value="odom"/>
+    <param name="base_footprint_frame" value="base_link" />
+    <param name="sensor_timeout" value="0.5"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <param name="debug" value="false"/>
+    <param name="self_diagnose" value="false"/>
+    <param name="freq" value="50.0"/>
+
+    <remap from="/odom" to="/wheel_odom" />
+    <remap from="/imu_data" to="/imu" />
+  </node>
+
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen" >
+      <param name="base_fram" value="base_link" />
+      <param name="map_frame" value="map" />
+      <param name="odom_frame" value="odom" />
+      <param name="map_update_interval" value="2.0"/>
+      <param name="maxUrange" value="12.0"/>
+      <param name="sigma" value="0.05"/>
+      <param name="kernelSize" value="1"/>
+      <param name="lstep" value="0.05"/>
+      <param name="astep" value="0.05"/>
+      <param name="iterations" value="5"/>
+      <param name="lsigma" value="0.075"/>
+      <param name="ogain" value="3.0"/>
+      <param name="lskip" value="0"/>
+      <param name="srr" value="0.1"/>
+      <param name="srt" value="0.2"/>
+      <param name="str" value="0.1"/>
+      <param name="stt" value="0.2"/>
+      <param name="linearUpdate" value="0.1"/>         
+      <param name="angularUpdate" value="0.02"/>       
+      <param name="temporalUpdate" value="3.0"/>  
+      <param name="resampleThreshold" value="0.5"/>
+      <param name="particles" value="30"/>
+      <param name="xmin" value="-50.0"/>              
+      <param name="ymin" value="-50.0"/>
+      <param name="xmax" value="50.0"/>
+      <param name="ymax" value="50.0"/>
+      <param name="delta" value="0.05"/>              
+      <param name="llsamplerange" value="0.01"/>
+      <param name="llsamplestep" value="0.01"/>
+      <param name="lasamplerange" value="0.005"/>
+      <param name="lasamplestep" value="0.005"/>
+      <param name="throttle_scans" value="1" />
+      <param name="transform_publish_period" value="0.05" />
+      <param name="minimumScore" value="0" />      
+  </node>
+
+
+ <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find mini_gmapping)/rviz/mini_gmapping.rviz" /-->
+</launch>

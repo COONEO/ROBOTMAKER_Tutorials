@@ -1,0 +1,28 @@
+<!-- 
+-->
+<launch> 
+  <node name="mini_motor_adaptor" pkg="mini_motor_adaptor" type="mini_motor_adaptor_node" >   <!--  output="screen" -->
+    <param name="/wheel_port" type="string" value="/dev/ttyUSB0"/>
+    <param name="/ultra_port" type="string" value="/dev/ttyUSB3"/>
+    <param name="/wheel_baudrate" type="int" value="115200" />
+    <param name="/ultra_baudrate" type="int" value="230400" />
+    <param name="/use_wheel_port" type="bool" value="true"/>          <!--是否打开和控制底盘的单片机之间的串口进行通信 -->
+    <param name="/use_ultra_port" type="bool" value="false"/>         <!--是否打开采集超声波距离数据的单片机之间的串口进行通信 -->
+    <param name="/Steer_correct_angle" type="int" value="12"/>        <!--矫正前轮正中位置：范围【-100,100】偏左(正数)、偏右（负数），让车走直线，一位小数-->
+    <param name="/rear_odom_correct_param" type="int" value="9"/>    <!--对车轮里程计进行补偿，控制车行走1m，查看： topic wheel_odom 计算的和实际的偏差，然后选择修改该值 -->
+    <param name="/control_rate" type="int" value="7" />
+
+  </node>
+  
+  <!-- laucnh ps3 joy control -->.
+  <!--include file="$(find joy_control)/launch/joy_control.launch" /-->
+
+
+  <!-- static_transform_publisher x y z yaw pitch roll frame_id child_frame_id period_in_ms -->
+  <node name="Ultra_L_to_base_link"   pkg="tf" type="static_transform_publisher" args="0.0 0.20  0.05  1.57  -0.0875 0  base_link Ultra_L_Link  10 " />
+  <node name="Ultra_F_L_to_base_link" pkg="tf" type="static_transform_publisher" args="0.1 0.03  0.05  0.78  -0.0875 0  base_link Ultra_F_L_Link 10 " />
+  <node name="Ultra_F_C_to_base_link" pkg="tf" type="static_transform_publisher" args="0.1 0.00  0.05  0     -0.0875 0  base_link Ultra_F_C_Link 10 " />
+  <node name="Ultra_F_R_to_base_link" pkg="tf" type="static_transform_publisher" args="0.1 -0.03 0.05 -0.78  -0.0875 0  base_link Ultra_F_R_Link 10 " />
+  <node name="Ultra_R_to_base_link"   pkg="tf" type="static_transform_publisher" args="0.0 -0.20 0.05 -1.57  -0.0875 0  base_link Ultra_R_Link 10 " />
+
+</launch>

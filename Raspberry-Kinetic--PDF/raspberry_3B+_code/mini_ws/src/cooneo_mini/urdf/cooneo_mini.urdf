@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="cooneo_mini">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.011165 -1.5969E-05 0.059651"
+        rpy="0 0 0" />
+      <mass
+        value="1.9356" />
+      <inertia
+        ixx="0.012455"
+        ixy="-3.2416E-08"
+        ixz="0.0014124"
+        iyy="0.020757"
+        iyz="2.4025E-07"
+        izz="0.029211" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.25098 0.25098 0.25098 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="rear_wheel_link">
+    <inertial>
+      <origin
+        xyz="-8.88178419700125E-16 0 -0.00112500000000004"
+        rpy="0 0 0" />
+      <mass
+        value="5.65486677646169E-05" />
+      <inertia
+        ixx="1.32005796313028E-10"
+        ixy="-1.93870456067114E-27"
+        ixz="2.07308223726184E-26"
+        iyy="1.32005796313028E-10"
+        iyz="-7.55046416366814E-25"
+        izz="2.03575203952622E-10" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/rear_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.274509803921569 1 0.247058823529412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/rear_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="-0.1815 0 0.04"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rear_wheel_link" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="left_rear_link">
+    <inertial>
+      <origin
+        xyz="7.85229659072684E-11 -0.019676248885477 -8.4279616618943E-10"
+        rpy="0 0 0" />
+      <mass
+        value="0.295561829050383" />
+      <inertia
+        ixx="0.000374087423652296"
+        ixy="2.1933518923704E-13"
+        ixz="-5.50404449693522E-12"
+        iyy="0.000661017199375588"
+        iyz="-5.10037069618075E-14"
+        izz="0.000374087441459992" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/left_rear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/left_rear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_rear_joint"
+    type="continuous">
+    <origin
+      xyz="-0.1815 0.22854 0.04"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="left_rear_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="right_rear_link">
+    <inertial>
+      <origin
+        xyz="7.85229659072684E-11 0.0196762603524332 -8.57704240964097E-10"
+        rpy="0 0 0" />
+      <mass
+        value="0.295561829050388" />
+      <inertia
+        ixx="0.000374087423652305"
+        ixy="-2.1933774738079E-13"
+        ixz="5.50404221941799E-12"
+        iyy="0.000661017199375599"
+        iyz="-5.10080277849736E-14"
+        izz="0.000374087441459994" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/right_rear_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/right_rear_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_rear_joint"
+    type="continuous">
+    <origin
+      xyz="-0.1815 -0.22854 0.04"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="right_rear_link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="front_steer_link">
+    <inertial>
+      <origin
+        xyz="-1.77635683940025E-14 -5.46727774164424E-10 -0.00112485700737985"
+        rpy="0 0 0" />
+      <mass
+        value="5.65486677646163E-05" />
+      <inertia
+        ixx="1.32005796313026E-10"
+        ixy="1.16322273640277E-26"
+        ixz="1.20446157864484E-28"
+        iyy="1.32005796313026E-10"
+        iyz="-8.66481261175625E-27"
+        izz="2.03575203952619E-10" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_steer_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.274509803921569 1 0.247058823529412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_steer_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_steer_joint"
+    type="revolute">
+    <origin
+      xyz="0.17288 0 -0.0037656"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="front_steer_right_link">
+    <inertial>
+      <origin
+        xyz="-0.00287984917574224 -0.00386608727320614 -3.21341868447789E-07"
+        rpy="0 0 0" />
+      <mass
+        value="0.00404228912885315" />
+      <inertia
+        ixx="3.86012893948635E-07"
+        ixy="1.06107136042316E-07"
+        ixz="3.7998167490122E-12"
+        iyy="5.70282019991062E-07"
+        iyz="-5.11429251072708E-13"
+        izz="5.85222511682941E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_steer_right_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.309803921568627 1 0.333333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_steer_right_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_steer_right_joint"
+    type="revolute">
+    <origin
+      xyz="0.16696 -0.15584 0.039625"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_right_link" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="front_right_wheel_link">
+    <inertial>
+      <origin
+        xyz="9.45795743945155E-08 -0.000295273236284865 1.87538969909085E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.296315811300357" />
+      <inertia
+        ixx="0.000374692013709373"
+        ixy="-9.17172260378054E-08"
+        ixz="-2.43188315834101E-12"
+        iyy="0.000661029987747127"
+        iyz="1.97367409117038E-13"
+        izz="0.000374691963930339" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_right_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_right_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.000561692366284561 -0.0539588411844538 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_steer_right_link" />
+    <child
+      link="front_right_wheel_link" />
+    <axis
+      xyz="-0.000320310780620463 0.999999948700501 0" />
+  </joint>
+  <link
+    name="front_steer_left_link">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="0" />
+      <inertia
+        ixx="0"
+        ixy="0"
+        ixz="0"
+        iyy="0"
+        iyz="0"
+        izz="0" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_steer_left_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_steer_left_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_steer_left_joint"
+    type="revolute">
+    <origin
+      xyz="0.166955591258992 0.155840982540987 0.039624698003177"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_steer_left_link" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="front_left_wheel_link">
+    <inertial>
+      <origin
+        xyz="-3.99413835339146E-11 0.000295274254397127 -5.88863402484208E-11"
+        rpy="0 0 0" />
+      <mass
+        value="0.296315811293939" />
+      <inertia
+        ixx="0.000374691978511198"
+        ixy="-1.84494369513925E-13"
+        ixz="-9.50757166279945E-12"
+        iyy="0.000661030017093965"
+        iyz="-1.17866539930504E-13"
+        izz="0.000374691969713973" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_left_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cooneo_mini/meshes/front_left_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_wheel_joint"
+    type="continuous">
+    <origin
+      xyz="0.000544408740911884 0.0539590174586466 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_steer_left_link" />
+    <child
+      link="front_left_wheel_link" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+</robot>

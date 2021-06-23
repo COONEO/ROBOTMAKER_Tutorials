@@ -1,0 +1,21 @@
+<!---->
+<launch>
+  <!-- start imu (GY61) node -->
+  <node pkg="cooneo_imu" type="cooneo_imu_node" name="cooneo_imu" required="true">
+    <param name="port" value="/dev/ttyUSB1"/>
+    <param name="imu_frame_id" value="imu"/>
+    <param name="baudrate" value="115200" />
+  </node>
+  <!-- start imu filter node -->
+  <!--node pkg="imu_complementary_filter" type="complementary_filter_node" name="complementary_filter_gain_node" output="screen">
+    <param name="do_bias_estimation" value="true"/>
+    <param name="do_adaptive_gain" value="true"/>
+    <param name="use_mag" value="false"/>
+    <param name="gain_acc" value="0.01"/>
+    <param name="gain_mag" value="0.01"/> 
+    <remap from="imu/data" to="imu" />
+  </node-->
+
+  <node pkg="tf" type="static_transform_publisher" name="imu_static_tf" args="0.08 0.0 0 0 0 0 base_link imu 100" />
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find cooneo_imu)/imu_rviz.rviz" /-->
+</launch>

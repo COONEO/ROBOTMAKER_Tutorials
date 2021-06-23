@@ -1,0 +1,27 @@
+<launch>
+   <master auto="start"/>
+   <!-- Run the map server --> 
+  <!-- <node name="load_map_to_amcl" pkg="map_server" type="map_server" args="$(find mini_navigation)/map/waimian_map.yaml"/> -->
+   <node name="load_map_to_amcl" pkg="map_server" type="map_server" args="$(find mini_navigation)/map/map_1230.yaml"/>
+   <!--- Run AMCL --> 
+   <include file="$(find mini_navigation)/launch/diff_amcl.launch" /> 
+
+   <!-- Run move_base node -->
+   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+      <param name="/use_sim_time" value="true" />
+      <!-- Register teb local planner into navigation -->
+      <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />                              <!-- define the output cmd_vel publish rate -->
+      <rosparam file="$(find mini_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+      <rosparam file="$(find mini_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find mini_navigation)/params/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find mini_navigation)/params/move_base_params.yaml" command="load" />
+      <rosparam file="$(find mini_navigation)/params/global_costmap_params.yaml" command="load" /> 
+      <rosparam file="$(find mini_navigation)/params/teb_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find mini_navigation)/params/global_planner_params.yaml" command="load"/>
+   </node>
+
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find mini_navigation)/rviz/navigation_rviz.rviz" /-->
+
+</launch> 
+
+

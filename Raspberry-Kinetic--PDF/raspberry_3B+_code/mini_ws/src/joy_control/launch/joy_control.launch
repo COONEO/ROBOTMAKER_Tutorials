@@ -1,0 +1,5 @@
+<launch>
+    <node name="joy" pkg="joy" type="joy_node"/>
+    <node name="joy_control" pkg="joy_control" type="joy_control_node"/>
+    <!--node name="uvc_camera" pkg="uvc_camera" type="uvc_camera_node"/-->
+</launch>

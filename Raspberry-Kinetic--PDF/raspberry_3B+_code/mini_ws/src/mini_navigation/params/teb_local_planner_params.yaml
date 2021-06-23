@@ -1,0 +1,114 @@
+TebLocalPlannerROS:
+
+ odom_topic: odom
+ map_frame: map
+
+ # Trajectory 
+ teb_autosize: True                       # 在优化过程中启用轨迹的自动调整大小（基于轨迹的时间分辨率，建议）
+ dt_ref: 0.2                              # 计划轨迹的时间分辨率（通常将其设置为1 / control_rate的大小）
+ dt_hysteresis: 0.02                      # 根据当前时间分辨率自动调整大小的滞后现象，通常约为dt ref的10%。
+
+ global_plan_overwrite_orientation: true  # 一些全局规划器没有考虑起始和全局目标之间局部子目标的方向，因此会自动确定
+ allow_init_with_backwards_motion: True   # 如果为true，则在目标位于本地成本图内的起点之后的情况下，可以使用向后运动来初始化基础轨迹（仅当机器人配备了后部传感器时才建议这样做） 
+ max_global_plan_lookahead_dist: 1.5        # 指定考虑优化的全局计划子集的最大长度
+
+ #feasibility_check_no_poses: 5            # 规定在每个采样间隔内应检查预测计划中哪个姿势的可行性
+
+ # Robot         
+ max_vel_x: 0.25                           # max_vel_x (double, default: 0.4)   
+ max_vel_x_backwards: 0.15                 # max_vel_x_backwards (double, default: 0.2)  
+ acc_lim_x: 1.0                            # acc_lim_x (double, default: 0.5) 
+ 
+ max_vel_theta: 0.3                        # max_vel_theta (double, default: 0.3)  
+ acc_lim_theta: 0.2                        # acc_lim_theta (double, default: 0.5)  
+ is_footprint_dynamic: False               # 如果为true，则在检查轨迹可行性之前更新覆盖区 
+
+ min_turning_radius: 0.41        # diff-drive: 0 max_steer_angle = 45 度，car_length = 0.35  ----> Redius_min= 0.35
+ wheelbase: 0.35                  # 驱动轴与转向轴之间的距离（仅对于启用了“ cmd_angle_instead_rotvel”的汽车式机器人才需要
+ cmd_angle_instead_rotvel: false  # 是否允许原地转
+
+
+ footprint_model: 
+   #type: "point"
+   #radius: 0.35
+   type: "polygon"
+   vertices: [[-0.0625, 0.23], [-0.0625, -0.23], [0.42, -0.23], [0.42,0.23]]
+   #vertices: [[-0.0625,0.23], [0.0625,0.23], [0.0625,0.13], [0.275,0.13], [0.275,0.23], [0.40,0.23], [0.40,-0.23], [0.275,-0.23], [0.275,-0.13], [0.0625,-0.13], [0.0625,-0.23], [-0.0625,-0.23]]
+ # for type "polygon"
+
+
+ # GoalTolerance
+ xy_goal_tolerance: 0.20   # 目标位置的允许距离误差
+ yaw_goal_tolerance: 0.3 # 目标位置的允许角度误差
+ free_goal_vel: False     # 去除目标速度的约束  即到达目标点时的速度为0，否则将会全速冲线
+    
+
+ # Obstacles
+ min_obstacle_dist: 0.10                         # 与障碍的最小期望距离,注意，teb_local_planner本身不考虑膨胀半径
+ include_costmap_obstacles: True                 # 应否考虑到局部costmap的障碍
+ costmap_obstacles_behind_robot_dist: 1.0        # 考虑后面n米内的障碍物
+ obstacle_poses_affected: 15                     # 为了保持距离，每个障碍物位置都与轨道上最近的位置相连。
+ inflation_dist: 0.15                            # 障碍物周围缓冲区(应大于min_obstacle_dist才能生效) 
+ dynamic_obstacle_inflation_dist: 0.10           # 动态障碍物的预测位置周围的缓冲区的惩罚成本非零（应大于min_obstacle_dist才能生效）
+ include_dynamic_obstacles: False                # 指定是否应通过恒速模型预测动态障碍物的运动（这也会更改同伦类搜索）。 如果为假，则所有障碍均视为静态障碍
+
+ legacy_obstacle_association: false              # 如果为true，则使用旧的关联策略（对于每个障碍，找到最近的TEB姿势），否则使用新的关联策略（对于每个teb姿势，仅找到“相关”障碍）
+
+
+ # Costmap converter plugin   
+ costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSMCCH"
+ costmap_converter_spin_thread: True
+ costmap_converter_rate: 6
+
+
+ costmap_converter/CostmapToLinesDBSRANSAC:
+   cluster_max_distance: 5.0
+   cluster_min_pts: 2
+   ransac_inlier_distance: 0.15
+   ransac_min_inliers: 10
+   ransac_no_iterations: 2000
+   ransac_remainig_outliers: 3
+   ransac_convert_outlier_pts: True
+   ransac_filter_remaining_outlier_pts: False
+   convex_hull_min_pt_separation: 0.1
+
+
+ # Optimization 
+ no_inner_iterations: 2                          #在每个外循环迭代中调用的实际求解器迭代次数
+ no_outer_iterations: 2                          #在每个外循环迭代中调用的实际求解器迭代次数
+ optimization_activate: True
+ optimization_verbose: False
+ penalty_epsilon: 0.1                            #为硬约束近似的惩罚函数添加一个小的安全范围
+ weight_max_vel_x: 2.0                             #满足最大允许平移速度的优化权重
+ weight_max_vel_theta: 1.0                       #满足最大允许平移速度的优化权重
+ weight_acc_lim_x: 1.0                             #满足最大允许平移加速度的优化权重。
+ weight_acc_lim_theta: 1.0                       #满足最大允许角加速度的优化权重。
+ weight_kinematics_nh: 1000                      #运动学的优化权重
+ weight_kinematics_forward_drive: 1.0             #强制机器人仅选择正向（正的平移速度）的优化权重。
+ weight_kinematics_turning_radius: 1.0             #采用最小转向半径的优化权重
+ weight_optimaltime: 0.3                         #根据转换/执行时间对轨迹进行收缩的优化权重。
+ weight_obstacle: 50                             #保持与障碍物的最小距离的优化权重 default: 50.0
+ weight_viapoint: 1                              #跟踪全据路径的权重
+ weight_inflation: 0.1                             #膨胀半径权重
+ weight_adapt_factor: 2                          #迭代地增加某些权重
+
+ selection_alternative_time_cost: False
+
+
+ # Homotopy Class Planner
+ enable_homotopy_class_planning: False            # 激活并行规划（因为一次优化多个轨迹，占用更多的CPU资源
+ enable_multithreading: false                      # 激活多个线程，以便在不同的线程中规划每个轨迹
+ simple_exploration: False                       
+ max_number_classes: 2                            # 考虑到的不同轨迹的最大数量 >= 2
+
+ roadmap_graph_no_samples: 15                    # 指定为创建路线图而生成的样本数 default: 15
+ roadmap_graph_area_width: 3                     # 指定该区域的宽度 default: 3
+ h_signature_prescaler: 0.2                      # （0.2 < value <= 1）缩放用于区分同伦类的内部参数（H-signature）。
+ h_signature_threshold: 0.1                      # 如果实部和复部的差都低于规定的阈值，则假定两个h签名相等。
+ obstacle_keypoint_offset: 0.1 
+ obstacle_heading_threshold: 0.45                # 指定障碍标头和目标标头之间的标量积的值，以便将(障碍)考虑到勘探中
+ visualize_hc_graph: True                        # 可视化创建的图形，用于探索不同的轨迹（在rviz中检查标记消息）
+
+#Recovery 
+ shrink_horizon_backup: True               # 在自动检测到问题的情况下，允许计划者临时缩小范围（50％） 
+ oscillation_recovery: True                # 尝试检测并解决相同等价类中多个解决方案之间的振荡（机器人经常在左/右/前/后退之间切换
